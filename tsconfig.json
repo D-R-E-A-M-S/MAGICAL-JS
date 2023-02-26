@@ -1,5 +1,13 @@
 {
     "compilerOptions": {
+        "paths": {
+            "@compiler/*": [
+                "src/compiler/*"
+            ],
+            "@parser/*": [
+                "src/parser/*"
+            ],
+        },
         "lib": [
             "ESNext",
             "DOM"
@@ -29,7 +37,8 @@
     },
     "include": [
         "src",
-        "test"
+        "test",
+        "src/bin"
     ],
     "exclude": [
         "node_modules",
