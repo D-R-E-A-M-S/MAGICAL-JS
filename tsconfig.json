@@ -1,0 +1,38 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "ESNext",
+            "DOM"
+        ],
+        "baseUrl": ".",
+        "strict": true,
+        "noEmit": true,
+        "allowJs": true,
+        "checkJs": true,
+        "target": "es2015",
+        "declaration": true,
+        "skipLibCheck": true,
+        "module": "CommonJS",
+        "noUnusedLocals": true,
+        "removeComments": true,
+        "esModuleInterop": true,
+        "noImplicitReturns": true,
+        "noImplicitOverride": true,
+        "allowUnusedLabels": false,
+        "noUnusedParameters": true,
+        "allowUnreachableCode": false,
+        "exactOptionalPropertyTypes": true,
+        "allowSyntheticDefaultImports": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "forceConsistentCasingInFileNames": true,
+        "noPropertyAccessFromIndexSignature": true,
+    },
+    "include": [
+        "src",
+        "test"
+    ],
+    "exclude": [
+        "node_modules",
+        "MAGICAL-JS"
+    ],
+}
