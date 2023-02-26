@@ -1,0 +1,30 @@
+{
+    "name": "magical-js",
+    "version": "1.0.0",
+    "type": "module",
+    "main": "MAGICAL-JS/index.js",
+    "types": "MAGICAL-JS/index.d.ts",
+    "module": "MAGICAL-JS/index.cjs",
+    "description": "A Flutter inspired JavaScript/TypeScript UI Frmework for creating HIGHLY ACCESSIBLE web apps with MAGIC.",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/D-R-E-A-M-S/MAGICAL-JS.git"
+    },
+    "keywords": [
+        "react",
+        "reactjs",
+        "magic-al",
+        "javascript UI framework",
+        "magic-al UI framework",
+        "magic-al PWA framework"
+    ],
+    "author": "Damilaree-michaell",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/D-R-E-A-M-S/MAGICAL-JS/issues"
+    },
+    "homepage": "https://github.com/D-R-E-A-M-S/MAGICAL-JS#readme"
+}
