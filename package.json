@@ -1,13 +1,14 @@
 {
+    "type": "module",
     "name": "magical-js",
     "version": "1.0.0",
-    "type": "module",
     "main": "MAGICAL-JS/index.js",
     "types": "MAGICAL-JS/index.d.ts",
     "module": "MAGICAL-JS/index.cjs",
     "description": "A Flutter inspired JavaScript/TypeScript UI Frmework for creating HIGHLY ACCESSIBLE web apps with MAGIC.",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "vitest",
+        "build": " tsup --config ./tsup.config.ts "
     },
     "repository": {
         "type": "git",
@@ -26,5 +27,10 @@
     "bugs": {
         "url": "https://github.com/D-R-E-A-M-S/MAGICAL-JS/issues"
     },
-    "homepage": "https://github.com/D-R-E-A-M-S/MAGICAL-JS#readme"
+    "homepage": "https://github.com/D-R-E-A-M-S/MAGICAL-JS#readme",
+    "devDependencies": {
+        "tsup": "^6.6.3",
+        "typescript": "^4.9.5",
+        "vitest": "^0.29.1"
+    }
 }
