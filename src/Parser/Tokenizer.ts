@@ -47,7 +47,6 @@ export class Tokenizer {
                 const ignoredToked = [
                     'Comment',
                     'Whitespace'
-                    // 'Semicolon' TODO: Later
                 ];
                 const value = this.validator( regex );
 
@@ -56,10 +55,8 @@ export class Tokenizer {
                     // Some value might pass this test, but it's not a valid token
                     // Eg - Whitespace, Newline, Comment, etc
                     // In that case, we should ignore it and move on to the next token
-                    if ( ignoredToked.includes( tokenType ) ) {
-                        console.log( 'Ignoring token: ', tokenType );
+                    if ( ignoredToked.includes( tokenType ) )
                         return this.analyze();
-                    }
 
 
                     return {

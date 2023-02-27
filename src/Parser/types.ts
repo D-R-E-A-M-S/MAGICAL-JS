@@ -23,7 +23,22 @@ export interface NumberLiteral {
 
 export type Literal = StringLiteral | NumberLiteral;
 
+export type Expression = Literal;
+
+export type ExpressionStatement = {
+    readonly type: 'ExpressionStatement';
+    readonly expression: Expression;
+};
+
+export type EmptyStatement = {
+    readonly type: 'EmptyStatement';
+};
+
+export type Statement = ExpressionStatement | EmptyStatement;
+
+export type StatementList = Statement[];
+
 export interface Program {
     readonly type: 'Program';
-    readonly body: Literal[];
+    readonly body: StatementList;
 }
