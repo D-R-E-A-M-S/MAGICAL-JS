@@ -13,8 +13,11 @@ describe( 'literal', () => {
                 "type": 'Program',
                 "body": [
                     {
-                        "type": 'NumberLiteral',
-                        "value": 16
+                        type: 'ExpressionStatement',
+                        expression: {
+                            type: 'NumberLiteral',
+                            value: 16
+                        }
                     }
                 ]
             }
@@ -25,10 +28,7 @@ describe( 'literal', () => {
 
 
     const StringAST = Parser.parse(
-        `
-            // Ignored Line MAGICAL-JS
-            "MAGICAL-JS"
-        `
+        `"MAGICAL-JS"`
     );
 
     it( 'should return a program tree for stringLiteral', () => {
@@ -36,11 +36,14 @@ describe( 'literal', () => {
         expect( StringAST ).toEqual(
 
             {
-                "type": 'Program',
-                "body": [
+                type: 'Program',
+                body: [
                     {
-                        "type": 'StringLiteral',
-                        "value": "MAGICAL-JS"
+                        type: 'ExpressionStatement',
+                        expression: {
+                            type: 'StringLiteral',
+                            value: 'MAGICAL-JS'
+                        }
                     }
                 ]
             }
