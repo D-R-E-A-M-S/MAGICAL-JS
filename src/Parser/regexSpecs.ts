@@ -20,4 +20,8 @@ export const RegexSpec: RegexSpecs = {
 
     Semicolon: RegexStore.Semicolon,
 
-} as const;
+    OpenCurlyBrace: RegexStore.OpenCurlyBrace,
+
+    CloseCurlyBrace: RegexStore.CloseCurlyBrace,
+
+};

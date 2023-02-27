@@ -3,9 +3,10 @@ import { describe, expect, it } from "vitest";
 
 describe( "emptyStatement", () => {
 
-    const AST = Parser.parse( ";" );
 
     it( "should return a program tree with an emptyStatement", () => {
+
+        const AST = Parser.parse( ";" );
 
         expect( AST ).toEqual( {
 
