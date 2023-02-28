@@ -4,7 +4,9 @@ export type TokenTypes =
     | 'Comment'
     | 'Semicolon'
     | 'Whitespace'
-    | 'EndOfFile';
+    | 'EndOfFile'
+    | 'OpenCurlyBrace'
+    | 'CloseCurlyBrace';
 
 export interface Token {
     type: TokenTypes;
@@ -34,7 +36,15 @@ export type EmptyStatement = {
     readonly type: 'EmptyStatement';
 };
 
-export type Statement = ExpressionStatement | EmptyStatement;
+export type BlockStatement = {
+    readonly type: 'BlockStatement';
+    readonly block: StatementList;
+};
+
+export type Statement =
+    | EmptyStatement
+    | BlockStatement
+    | ExpressionStatement;
 
 export type StatementList = Statement[];
 

@@ -1,4 +1,4 @@
-import { EmptyStatement, Expression, ExpressionStatement, Literal, NumberLiteral, Program, Statement, StatementList, StringLiteral, Token, TokenTypes } from "./types";
+import { BlockStatement, EmptyStatement, Expression, ExpressionStatement, Literal, NumberLiteral, Program, Statement, StatementList, StringLiteral, Token, TokenTypes } from "./types";
 import { Tokenizer } from "./Tokenizer";
 
 
@@ -22,10 +22,10 @@ export class Parser {
 
         const token = Parser.lookahead;
 
-        if ( token === null )
+        if ( token.type === 'EndOfFile' )
             throw new Error( `Unexpected end of file, expected: ${ tokenType }` );
 
-        if ( typeof token !== 'string' && token.type !== tokenType )
+        if ( token.type !== tokenType )
             throw new Error( `Unexpected token: ${ token.type }, expected: ${ tokenType }` );
 
         Parser.lookahead = Parser.tokenizer.analyze();
@@ -93,23 +93,45 @@ export class Parser {
         };
     }
 
+    private static blockStatement (): BlockStatement {
+
+        Parser.eat( 'OpenCurlyBrace' );
+
+        const statement = [];
+
+        while ( Parser.lookahead.type !== 'CloseCurlyBrace' ) {
+
+            statement.push( Parser.statement() );
+
+        }
+
+        Parser.eat( 'CloseCurlyBrace' );
+
+        return {
+            type: 'BlockStatement',
+            block: statement
+        };
+    }
+
     private static statement (): Statement {
 
         switch ( Parser.lookahead.type ) {
 
             case 'Semicolon':
                 return Parser.emptyStatement();
+            case 'OpenCurlyBrace':
+                return Parser.blockStatement();
             default:
                 return Parser.expressionStatement();
 
         }
     }
 
-    private static statementList (): StatementList {
+    private static statementList ( stopLookAhead?: TokenTypes ): StatementList {
 
         const statementList = [ Parser.statement() ];
 
-        while ( Parser.lookahead.type !== 'EndOfFile' )
+        while ( Parser.lookahead.type !== 'EndOfFile' && Parser.lookahead.type !== stopLookAhead )
             statementList.push( Parser.statement() );
 
         return statementList;
