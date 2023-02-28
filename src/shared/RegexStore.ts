@@ -7,20 +7,27 @@ type RegexSpecs = {
 
 export const RegexStore: RegexSpecs = {
 
-    String: /^(?:"[^"]*"|'[^']*')/,
 
     Number: /^\d+/,
+
+    Semicolon: /^;/,
 
     EndOfFile: /\z$/,
 
     Whitespace: /^\s+/,
 
-    Comment: /^\/\*[\s\S]*?\*\/|^\/\/.*/,
-
-    Semicolon: /^;/,
-
     OpenCurlyBrace: /^\{/,
 
     CloseCurlyBrace: /^\}/,
+
+    OpenParenthesis: /^\(/,
+
+    CloseParenthesis: /^\)/,
+
+    ArithmeticOperator: /^[+\-*/]/,
+
+    String: /^(?:"[^"]*"|'[^']*')/,
+
+    Comment: /^\/\*[\s\S]*?\*\/|^\/\/.*/,
 
 };

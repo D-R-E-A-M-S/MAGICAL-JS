@@ -1,4 +1,4 @@
-import { BlockStatement, EmptyStatement, Expression, ExpressionStatement, Literal, NumberLiteral, Program, Statement, StatementList, StringLiteral, Token, TokenTypes } from "./types";
+import { ArithmeticExpression, BlockStatement, EmptyStatement, Expression, ExpressionStatement, Literal, NumberLiteral, ParenthesizedExpression, PrimaryExpression, Program, Statement, StatementList, StringLiteral, Token, TokenTypes } from "./types";
 import { Tokenizer } from "./Tokenizer";
 
 
@@ -23,10 +23,10 @@ export class Parser {
         const token = Parser.lookahead;
 
         if ( token.type === 'EndOfFile' )
-            throw new Error( `Unexpected end of file, expected: ${ tokenType }` );
+            throw new SyntaxError( `Unexpected end of file, expected: ${ tokenType }` );
 
         if ( token.type !== tokenType )
-            throw new Error( `Unexpected token: ${ token.type }, expected: ${ tokenType }` );
+            throw new SyntaxError( `Unexpected token: ${ token.type }, expected: ${ tokenType }` );
 
         Parser.lookahead = Parser.tokenizer.analyze();
 
@@ -69,15 +69,69 @@ export class Parser {
 
     }
 
+    private static parenthesizedExpression (): ParenthesizedExpression {
+
+        Parser.eat( 'OpenParenthesis' );
+
+        const expression = Parser.expression();
+
+        Parser.eat( 'CloseParenthesis' );
+
+        return {
+            type: 'ParenthesizedExpression',
+            expression
+        };
+
+
+    }
+
+    private static primaryExpression (): PrimaryExpression {
+
+        switch ( Parser.lookahead.type ) {
+
+            case 'Number':
+            case 'String':
+                return Parser.literal();
+            default:
+                return Parser.parenthesizedExpression();
+
+        }
+
+    }
+
+    private static arithmeticExpression (): ArithmeticExpression {
+
+        const left = Parser.primaryExpression();
+
+        if ( Parser.lookahead.type === 'ArithmeticOperator' ) {
+
+            const operator = Parser.eat( 'ArithmeticOperator' );
+
+            const right = Parser.arithmeticExpression();
+
+            return {
+                type: 'BinaryExpression',
+                left,
+                operator: operator.value,
+                right
+            };
+
+        }
+
+        return left;
+
+    }
+
     private static expression (): Expression {
 
-        return Parser.literal();
+        return Parser.arithmeticExpression();
 
     }
 
     private static expressionStatement (): ExpressionStatement {
+
         const expression = Parser.expression();
-        !true && Parser.eat( 'Semicolon' ); //TODO: keep for compiler options 
+        false && Parser.eat( 'Semicolon' ); //TODO: keep for compiler options 
         return {
             type: 'ExpressionStatement',
             expression

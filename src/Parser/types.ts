@@ -6,7 +6,10 @@ export type TokenTypes =
     | 'Whitespace'
     | 'EndOfFile'
     | 'OpenCurlyBrace'
-    | 'CloseCurlyBrace';
+    | 'CloseCurlyBrace'
+    | 'OpenParenthesis'
+    | 'CloseParenthesis'
+    | 'ArithmeticOperator';
 
 export interface Token {
     type: TokenTypes;
@@ -25,26 +28,39 @@ export interface NumberLiteral {
 
 export type Literal = StringLiteral | NumberLiteral;
 
-export type Expression = Literal;
+export interface ParenthesizedExpression {
+    readonly type: 'ParenthesizedExpression';
+    readonly expression: Expression;
+}
 
-export type ExpressionStatement = {
+export type PrimaryExpression = Literal | ParenthesizedExpression;
+
+export interface BinaryExpression {
+    type: 'BinaryExpression';
+    left: PrimaryExpression;
+    operator: string;
+    right: ArithmeticExpression;
+}
+
+export type ArithmeticExpression = BinaryExpression | PrimaryExpression;
+
+export type Expression = ArithmeticExpression;
+
+export interface ExpressionStatement {
     readonly type: 'ExpressionStatement';
     readonly expression: Expression;
-};
+}
 
-export type EmptyStatement = {
+export interface EmptyStatement {
     readonly type: 'EmptyStatement';
-};
+}
 
-export type BlockStatement = {
+export interface BlockStatement {
     readonly type: 'BlockStatement';
     readonly block: StatementList;
-};
+}
 
-export type Statement =
-    | EmptyStatement
-    | BlockStatement
-    | ExpressionStatement;
+export type Statement = EmptyStatement | BlockStatement | ExpressionStatement;
 
 export type StatementList = Statement[];
 
