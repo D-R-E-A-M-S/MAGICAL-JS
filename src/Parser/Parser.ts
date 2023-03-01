@@ -1,4 +1,4 @@
-import { ArithmeticExpression, BlockStatement, EmptyStatement, Expression, ExpressionStatement, Literal, NumberLiteral, ParenthesizedExpression, PrimaryExpression, Program, Statement, StatementList, StringLiteral, Token, TokenTypes } from "./types";
+import { ArithmeticExpression, AssignmentExpression, BlockStatement, EmptyStatement, Expression, ExpressionStatement, Identifier, Literal, NumberLiteral, ParenthesizedExpression, PrimaryExpression, Program, Statement, StatementList, StringLiteral, Token, TokenTypes } from "./types";
 import { Tokenizer } from "./Tokenizer";
 
 
@@ -26,7 +26,7 @@ export class Parser {
             throw new SyntaxError( `Unexpected end of file, expected: ${ tokenType }` );
 
         if ( token.type !== tokenType )
-            throw new SyntaxError( `Unexpected token: ${ token.type }, expected: ${ tokenType }` );
+            throw new SyntaxError( `Unexpected token: ${ token.value }, expected: ${ tokenType }` );
 
         Parser.lookahead = Parser.tokenizer.analyze();
 
@@ -85,6 +85,17 @@ export class Parser {
 
     }
 
+    private static identifier (): Identifier {
+
+        const token = Parser.eat( 'Identifier' );
+
+        return {
+            type: 'Identifier',
+            name: token.value
+        };
+
+    }
+
     private static primaryExpression (): PrimaryExpression {
 
         switch ( Parser.lookahead.type ) {
@@ -92,8 +103,12 @@ export class Parser {
             case 'Number':
             case 'String':
                 return Parser.literal();
-            default:
+            case 'OpenParenthesis':
                 return Parser.parenthesizedExpression();
+            case 'Identifier':
+                return Parser.identifier();
+            default:
+                throw new SyntaxError( `Unexpected token: ${ Parser.lookahead.value }` );
 
         }
 
@@ -112,7 +127,38 @@ export class Parser {
             return {
                 type: 'BinaryExpression',
                 left,
-                operator: operator.value,
+                operator,
+                right
+            };
+
+        }
+
+        return left;
+
+    }
+
+    private static checkIdentifier ( node: any ): Identifier {
+
+        if ( node.type === 'Identifier' ) return node;
+
+        throw new SyntaxError( `Unexpected token: ${ node.type }, expected: Identifier` );
+
+    }
+
+    private static assignmentExpression (): AssignmentExpression {
+
+        const left = Parser.arithmeticExpression();
+
+        if ( Parser.lookahead.type === 'AssignmentOperator' ) {
+
+            const operator = Parser.eat( 'AssignmentOperator' );
+
+            const right = Parser.assignmentExpression();
+
+            return {
+                type: 'AssignmentExpression',
+                left: Parser.checkIdentifier( left ),
+                operator,
                 right
             };
 
@@ -124,7 +170,7 @@ export class Parser {
 
     private static expression (): Expression {
 
-        return Parser.arithmeticExpression();
+        return Parser.assignmentExpression();
 
     }
 
@@ -141,9 +187,10 @@ export class Parser {
 
     private static emptyStatement (): EmptyStatement {
 
-        Parser.eat( 'Semicolon' );
+        const value = Parser.eat( 'Semicolon' );
         return {
-            type: 'EmptyStatement'
+            type: 'EmptyStatement',
+            value: value.value
         };
     }
 

@@ -3,12 +3,14 @@ export type TokenTypes =
     | 'Number'
     | 'Comment'
     | 'Semicolon'
-    | 'Whitespace'
     | 'EndOfFile'
+    | 'Whitespace'
+    | 'Identifier'
     | 'OpenCurlyBrace'
     | 'CloseCurlyBrace'
     | 'OpenParenthesis'
     | 'CloseParenthesis'
+    | 'AssignmentOperator'
     | 'ArithmeticOperator';
 
 export interface Token {
@@ -33,18 +35,34 @@ export interface ParenthesizedExpression {
     readonly expression: Expression;
 }
 
-export type PrimaryExpression = Literal | ParenthesizedExpression;
+export type PrimaryExpression =
+    | Literal
+    | Identifier
+    | ParenthesizedExpression
+    ;
 
 export interface BinaryExpression {
     type: 'BinaryExpression';
     left: PrimaryExpression;
-    operator: string;
+    operator: Token;
     right: ArithmeticExpression;
 }
 
 export type ArithmeticExpression = BinaryExpression | PrimaryExpression;
 
-export type Expression = ArithmeticExpression;
+export interface Identifier {
+    readonly type: 'Identifier';
+    readonly name: string;
+}
+
+export type AssignmentExpression = {
+    readonly type: 'AssignmentExpression';
+    readonly left: Identifier;
+    readonly operator: Token;
+    readonly right: Expression;
+} | ArithmeticExpression;
+
+export type Expression = AssignmentExpression;
 
 export interface ExpressionStatement {
     readonly type: 'ExpressionStatement';
@@ -53,6 +71,7 @@ export interface ExpressionStatement {
 
 export interface EmptyStatement {
     readonly type: 'EmptyStatement';
+    readonly value: string;
 }
 
 export interface BlockStatement {

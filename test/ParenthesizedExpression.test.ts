@@ -21,7 +21,10 @@ describe( 'ParenthesizedExpression', () => {
                                     type: 'NumberLiteral',
                                     value: 2
                                 },
-                                operator: '+',
+                                operator: {
+                                    type: 'ArithmeticOperator',
+                                    value: '+'
+                                },
                                 right: {
                                     type: 'NumberLiteral',
                                     value: 2
