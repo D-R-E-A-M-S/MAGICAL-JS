@@ -18,6 +18,8 @@ export const RegexSpec: RegexSpecs = {
 
     EndOfFile: RegexStore.EndOfFile,
 
+    Identifier: RegexStore.Identifier,
+
     Whitespace: RegexStore.Whitespace,
 
     OpenCurlyBrace: RegexStore.OpenCurlyBrace,
@@ -27,6 +29,8 @@ export const RegexSpec: RegexSpecs = {
     OpenParenthesis: RegexStore.OpenParenthesis,
 
     CloseParenthesis: RegexStore.CloseParenthesis,
+
+    AssignmentOperator: RegexStore.AssignmentOperator,
 
     ArithmeticOperator: RegexStore.ArithmeticOperator,
 

@@ -19,14 +19,20 @@ describe( 'binaryExpressions', () => {
                                 type: 'NumberLiteral',
                                 value: 16
                             },
-                            operator: '+',
+                            operator: {
+                                type: 'ArithmeticOperator',
+                                value: '+'
+                            },
                             right: {
                                 type: 'BinaryExpression',
                                 left: {
                                     type: 'NumberLiteral',
                                     value: 1
                                 },
-                                operator: '-',
+                                operator: {
+                                    type: 'ArithmeticOperator',
+                                    value: '-'
+                                },
                                 right: {
                                     type: 'NumberLiteral',
                                     value: 48

@@ -5,7 +5,7 @@ describe( 'manual test', () => {
 
     const AST = Parser.parse(
         `
-        ( 2 + 3 * "What ?" ) / 4 * 5;
+        x += 1;
         `
     );
 

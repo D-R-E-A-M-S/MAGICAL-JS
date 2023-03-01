@@ -58,7 +58,8 @@ describe( "blockStatement", () => {
                     block: []
                 },
                 {
-                    type: 'EmptyStatement'
+                    type: 'EmptyStatement',
+                    value: ';'
                 }
             ]
         } );
@@ -95,6 +96,7 @@ describe( "blockStatement", () => {
                             },
                             {
                                 type: 'EmptyStatement',
+                                value: ';'
                             },
                             {
                                 type: 'ExpressionStatement',
@@ -105,6 +107,7 @@ describe( "blockStatement", () => {
                             },
                             {
                                 type: 'EmptyStatement',
+                                value: ';'
                             },
                             {
                                 type: 'ExpressionStatement',
@@ -115,6 +118,7 @@ describe( "blockStatement", () => {
                             },
                             {
                                 type: 'EmptyStatement',
+                                value: ';'
                             }
                         ]
                     }
@@ -162,6 +166,7 @@ describe( "blockStatement", () => {
                                     },
                                     {
                                         type: 'EmptyStatement',
+                                        value: ';'
                                     },
                                     {
                                         type: 'ExpressionStatement',
@@ -172,6 +177,7 @@ describe( "blockStatement", () => {
                                     },
                                     {
                                         type: 'EmptyStatement',
+                                        value: ';'
                                     },
                                     {
                                         type: 'ExpressionStatement',
@@ -182,6 +188,7 @@ describe( "blockStatement", () => {
                                     },
                                     {
                                         type: 'EmptyStatement',
+                                        value: ';'
                                     }
                                 ]
                             }

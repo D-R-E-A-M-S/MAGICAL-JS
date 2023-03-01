@@ -13,7 +13,8 @@ describe( "emptyStatement", () => {
             type: "Program",
             body: [
                 {
-                    type: "EmptyStatement"
+                    type: "EmptyStatement",
+                    value: ";"
                 }
             ]
 
@@ -42,7 +43,8 @@ describe( "emptyStatement", () => {
                     }
                 },
                 {
-                    type: "EmptyStatement"
+                    type: "EmptyStatement",
+                    value: ";"
                 },
                 {
                     type: "ExpressionStatement",
@@ -52,7 +54,8 @@ describe( "emptyStatement", () => {
                     }
                 },
                 {
-                    type: "EmptyStatement"
+                    type: "EmptyStatement",
+                    value: ";"
                 }
             ]
 

@@ -24,10 +24,14 @@ export const RegexStore: RegexSpecs = {
 
     CloseParenthesis: /^\)/,
 
+    Identifier: /^[$a-zA-Z_]\w*/,
+
     ArithmeticOperator: /^[+\-*/]/,
 
     String: /^(?:"[^"]*"|'[^']*')/,
 
     Comment: /^\/\*[\s\S]*?\*\/|^\/\/.*/,
+
+    AssignmentOperator: /[+\-*\%]?=|<<=?|>>=?|>>>?=|&=?|\^=?|\|=?/,
 
 };
