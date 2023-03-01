@@ -30,8 +30,8 @@ export const RegexSpec: RegexSpecs = {
 
     CloseParenthesis: RegexStore.CloseParenthesis,
 
-    ArithmeticOperator: RegexStore.ArithmeticOperator,
-
     AssignmentOperator: RegexStore.AssignmentOperator,
+
+    ArithmeticOperator: RegexStore.ArithmeticOperator,
 
 };

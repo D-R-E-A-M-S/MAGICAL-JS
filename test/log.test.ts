@@ -5,7 +5,7 @@ describe( 'manual test', () => {
 
     const AST = Parser.parse(
         `
-        $merlin = 'magic';
+        x += 1;
         `
     );
 
