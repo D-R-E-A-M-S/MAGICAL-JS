@@ -5,7 +5,7 @@ describe( 'manual test', () => {
 
     const AST = Parser.parse(
         `
-        x += 1;
+        x %= 1;
         `
     );
 

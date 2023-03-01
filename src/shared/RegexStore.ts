@@ -26,7 +26,7 @@ export const RegexStore: RegexSpecs = {
 
     Identifier: /^[$a-zA-Z_]\w*/,
 
-    ArithmeticOperator: /^[+\-*/]/,
+    ArithmeticOperator: /[+\-*/%]/,
 
     String: /^(?:"[^"]*"|'[^']*')/,
 
