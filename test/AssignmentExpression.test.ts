@@ -51,6 +51,7 @@ describe( "AssignmentExpression", () => {
         );
 
         expect( AST ).toEqual(
+
             {
                 type: 'Program',
                 body: [
@@ -77,7 +78,7 @@ describe( "AssignmentExpression", () => {
                                             name: 'SpringForce'
                                         },
                                         operator: {
-                                            type: 'ArithmeticOperator',
+                                            type: 'AdditiveOperator',
                                             value: '+'
                                         },
                                         right: {
@@ -87,7 +88,7 @@ describe( "AssignmentExpression", () => {
                                     }
                                 },
                                 operator: {
-                                    type: 'ArithmeticOperator',
+                                    type: 'MultiplicativeOperator',
                                     value: '/'
                                 },
                                 right: {

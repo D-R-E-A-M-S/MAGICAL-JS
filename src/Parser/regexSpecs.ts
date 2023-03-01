@@ -1,9 +1,9 @@
 import { RegexStore } from "@shared/RegexStore";
-import { TokenTypes } from "./types";
+import { TokenType } from "./types";
 
 type RegexSpecs = {
 
-    [ key in TokenTypes ]: RegExp;
+    [ key in TokenType ]: RegExp;
 };
 
 export const RegexSpec: RegexSpecs = {
@@ -32,6 +32,8 @@ export const RegexSpec: RegexSpecs = {
 
     AssignmentOperator: RegexStore.AssignmentOperator,
 
-    ArithmeticOperator: RegexStore.ArithmeticOperator,
+    AdditiveOperator: RegexStore.AdditiveOperator,
+
+    MultiplicativeOperator: RegexStore.MultiplicativeOperator,
 
 };

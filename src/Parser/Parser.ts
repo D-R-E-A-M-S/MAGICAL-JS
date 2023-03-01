@@ -1,4 +1,4 @@
-import { ArithmeticExpression, AssignmentExpression, BlockStatement, EmptyStatement, Expression, ExpressionStatement, Identifier, Literal, NumberLiteral, ParenthesizedExpression, PrimaryExpression, Program, Statement, StatementList, StringLiteral, Token, TokenTypes } from "./types";
+import { AdditiveExpression, AssignmentExpression, BlockStatement, EmptyStatement, Expression, ExpressionStatement, Identifier, Literal, MultiplicativeExpression, NumberLiteral, ParenthesizedExpression, PrimaryExpression, Program, Statement, StatementList, StringLiteral, Token, TokenType } from "./types";
 import { Tokenizer } from "./Tokenizer";
 
 
@@ -18,7 +18,7 @@ export class Parser {
 
     }
 
-    private static eat ( tokenType: TokenTypes ): Token {
+    private static eat ( tokenType: TokenType ): Token {
 
         const token = Parser.lookahead;
 
@@ -114,17 +114,40 @@ export class Parser {
 
     }
 
-    private static arithmeticExpression (): ArithmeticExpression {
+    private static multiplicativeExpression (): MultiplicativeExpression {
 
-        const left = Parser.primaryExpression();
+        let left: MultiplicativeExpression = Parser.primaryExpression();
 
-        if ( Parser.lookahead.type === 'ArithmeticOperator' ) {
+        while ( Parser.lookahead.type === 'MultiplicativeOperator' ) {
 
-            const operator = Parser.eat( 'ArithmeticOperator' );
+            const operator = Parser.eat( 'MultiplicativeOperator' );
 
-            const right = Parser.arithmeticExpression();
+            const right = Parser.primaryExpression();
 
-            return {
+            left = {
+                type: 'BinaryExpression',
+                left,
+                operator,
+                right
+            };
+
+        }
+
+        return left;
+
+    }
+
+    private static additiveExpression (): AdditiveExpression {
+
+        let left: AdditiveExpression = Parser.multiplicativeExpression();
+
+        while ( Parser.lookahead.type === 'AdditiveOperator' ) {
+
+            const operator = Parser.eat( 'AdditiveOperator' );
+
+            const right = Parser.multiplicativeExpression();
+
+            left = {
                 type: 'BinaryExpression',
                 left,
                 operator,
@@ -147,7 +170,7 @@ export class Parser {
 
     private static assignmentExpression (): AssignmentExpression {
 
-        const left = Parser.arithmeticExpression();
+        const left = Parser.additiveExpression();
 
         if ( Parser.lookahead.type === 'AssignmentOperator' ) {
 
@@ -228,7 +251,7 @@ export class Parser {
         }
     }
 
-    private static statementList ( stopLookAhead?: TokenTypes ): StatementList {
+    private static statementList ( stopLookAhead?: TokenType ): StatementList {
 
         const statementList = [ Parser.statement() ];
 

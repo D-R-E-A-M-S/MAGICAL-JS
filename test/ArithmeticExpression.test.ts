@@ -8,6 +8,7 @@ describe( 'binaryExpressions', () => {
     it( 'should return a program tree with a binaryExpression', () => {
 
         expect( AST ).toEqual(
+
             {
                 type: 'Program',
                 body: [
@@ -16,32 +17,33 @@ describe( 'binaryExpressions', () => {
                         expression: {
                             type: 'BinaryExpression',
                             left: {
-                                type: 'NumberLiteral',
-                                value: 16
-                            },
-                            operator: {
-                                type: 'ArithmeticOperator',
-                                value: '+'
-                            },
-                            right: {
                                 type: 'BinaryExpression',
                                 left: {
                                     type: 'NumberLiteral',
-                                    value: 1
+                                    value: 16
                                 },
                                 operator: {
-                                    type: 'ArithmeticOperator',
-                                    value: '-'
+                                    type: 'AdditiveOperator',
+                                    value: '+'
                                 },
                                 right: {
                                     type: 'NumberLiteral',
-                                    value: 48
+                                    value: 1
                                 }
                             },
+                            operator: {
+                                type: 'AdditiveOperator',
+                                value: '-'
+                            },
+                            right: {
+                                type: 'NumberLiteral',
+                                value: 48
+                            }
                         }
                     }
                 ]
             }
+
         );
 
     } );

@@ -1,4 +1,4 @@
-export type TokenTypes =
+export type TokenType =
     | 'String'
     | 'Number'
     | 'Comment'
@@ -9,12 +9,14 @@ export type TokenTypes =
     | 'OpenCurlyBrace'
     | 'CloseCurlyBrace'
     | 'OpenParenthesis'
+    | 'AdditiveOperator'
     | 'CloseParenthesis'
     | 'AssignmentOperator'
-    | 'ArithmeticOperator';
+    | 'MultiplicativeOperator'
+    ;
 
 export interface Token {
-    type: TokenTypes;
+    type: TokenType;
     value: string;
 }
 
@@ -43,12 +45,24 @@ export type PrimaryExpression =
 
 export interface BinaryExpression {
     type: 'BinaryExpression';
-    left: PrimaryExpression;
+    left: PrimaryExpression | BinaryExpression;
     operator: Token;
-    right: ArithmeticExpression;
+    right: PrimaryExpression | BinaryExpression;
 }
 
-export type ArithmeticExpression = BinaryExpression | PrimaryExpression;
+
+
+export type MultiplicativeExpression = PrimaryExpression | MultiplicativeExpressionLeft;
+interface MultiplicativeExpressionLeft extends BinaryExpression {
+    left: PrimaryExpression | MultiplicativeExpressionLeft;
+    right: PrimaryExpression;
+}
+
+export type AdditiveExpression = MultiplicativeExpression | AdditiveExpressionLeft;
+interface AdditiveExpressionLeft extends BinaryExpression {
+    left: MultiplicativeExpression | AdditiveExpressionLeft;
+    right: MultiplicativeExpression;
+}
 
 export interface Identifier {
     readonly type: 'Identifier';
@@ -60,7 +74,7 @@ export type AssignmentExpression = {
     readonly left: Identifier;
     readonly operator: Token;
     readonly right: Expression;
-} | ArithmeticExpression;
+} | AdditiveExpression;
 
 export type Expression = AssignmentExpression;
 
@@ -79,7 +93,10 @@ export interface BlockStatement {
     readonly block: StatementList;
 }
 
-export type Statement = EmptyStatement | BlockStatement | ExpressionStatement;
+export type Statement =
+    | EmptyStatement
+    | BlockStatement
+    | ExpressionStatement;
 
 export type StatementList = Statement[];
 

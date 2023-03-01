@@ -1,8 +1,8 @@
-import { TokenTypes } from "src/Parser/types";
+import { TokenType } from "src/Parser/types";
 
 type RegexSpecs = {
 
-    [ key in TokenTypes ]: RegExp;
+    [ key in TokenType ]: RegExp;
 };
 
 export const RegexStore: RegexSpecs = {
@@ -26,12 +26,14 @@ export const RegexStore: RegexSpecs = {
 
     Identifier: /^[$a-zA-Z_]\w*/,
 
-    ArithmeticOperator: /[+\-*/%]/,
-
     String: /^(?:"[^"]*"|'[^']*')/,
 
-    Comment: /^\/\*[\s\S]*?\*\/|^\/\/.*/,
+    AssignmentOperator: /^[+\-*/%]?=/,
 
-    AssignmentOperator: /[+\-*\%]?=|<<=?|>>=?|>>>?=|&=?|\^=?|\|=?/,
+    AdditiveOperator: /(?<!\+|\-)=|(?<!\+|\-)\+(?!\+)|(?<!\+|\-)\-(?!\-)/,
+
+    MultiplicativeOperator: /[*\/%]/,
+
+    Comment: /^\/\*[\s\S]*?\*\/|^\/\/.*/,
 
 };

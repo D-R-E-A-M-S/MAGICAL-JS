@@ -22,7 +22,7 @@ describe( 'ParenthesizedExpression', () => {
                                     value: 2
                                 },
                                 operator: {
-                                    type: 'ArithmeticOperator',
+                                    type: 'AdditiveOperator',
                                     value: '+'
                                 },
                                 right: {
