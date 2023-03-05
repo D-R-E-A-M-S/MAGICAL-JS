@@ -1,9 +1,9 @@
-import { Parser } from "MAGICAL-JS";
 import { describe, expect, it } from "vitest";
+import { getAST } from "./Shared";
 
 describe( 'ParenthesizedExpression', () => {
 
-    const AST = Parser.parse( `(2 + 2 )` );
+    const AST = getAST( `(2 + 2 )` );
 
     it( 'should return a program tree with a ParenthesizedExpression', () => {
 
@@ -22,7 +22,7 @@ describe( 'ParenthesizedExpression', () => {
                                     value: 2
                                 },
                                 operator: {
-                                    type: 'ArithmeticOperator',
+                                    type: 'AdditiveOperator',
                                     value: '+'
                                 },
                                 right: {

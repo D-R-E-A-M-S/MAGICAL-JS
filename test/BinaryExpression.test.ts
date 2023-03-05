@@ -1,13 +1,16 @@
-import { Parser } from "MAGICAL-JS";
 import { describe, expect, it } from "vitest";
+import { getAST } from "./Shared";
 
 describe( 'binaryExpressions', () => {
 
-    const AST = Parser.parse( '16 + 1 -  48' );
+    const AST = getAST(
+        '16 + 1 -  48'
+    );
 
     it( 'should return a program tree with a binaryExpression', () => {
 
         expect( AST ).toEqual(
+
             {
                 type: 'Program',
                 body: [
@@ -16,32 +19,33 @@ describe( 'binaryExpressions', () => {
                         expression: {
                             type: 'BinaryExpression',
                             left: {
-                                type: 'NumberLiteral',
-                                value: 16
-                            },
-                            operator: {
-                                type: 'ArithmeticOperator',
-                                value: '+'
-                            },
-                            right: {
                                 type: 'BinaryExpression',
                                 left: {
                                     type: 'NumberLiteral',
-                                    value: 1
+                                    value: 16
                                 },
                                 operator: {
-                                    type: 'ArithmeticOperator',
-                                    value: '-'
+                                    type: 'AdditiveOperator',
+                                    value: '+'
                                 },
                                 right: {
                                     type: 'NumberLiteral',
-                                    value: 48
+                                    value: 1
                                 }
                             },
+                            operator: {
+                                type: 'AdditiveOperator',
+                                value: '-'
+                            },
+                            right: {
+                                type: 'NumberLiteral',
+                                value: 48
+                            }
                         }
                     }
                 ]
             }
+
         );
 
     } );

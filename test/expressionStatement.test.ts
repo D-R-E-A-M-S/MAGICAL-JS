@@ -1,9 +1,11 @@
-import { Parser } from "MAGICAL-JS";
 import { describe, expect, it } from "vitest";
+import { getAST } from "./Shared";
 
 describe( "expressionStatement", () => {
 
-    const AST = Parser.parse( "16" );
+    const AST = getAST(
+        'MAGICAL_JS + 16'
+    );
 
     it( "should return a program tree with an expressionStatement", () => {
 
@@ -14,8 +16,19 @@ describe( "expressionStatement", () => {
                 {
                     type: "ExpressionStatement",
                     expression: {
-                        type: "NumberLiteral",
-                        value: 16
+                        type: "BinaryExpression",
+                        left: {
+                            type: "Identifier",
+                            name: "MAGICAL_JS"
+                        },
+                        operator: {
+                            type: "AdditiveOperator",
+                            value: "+"
+                        },
+                        right: {
+                            type: "NumberLiteral",
+                            value: 16
+                        }
                     }
                 }
             ]
