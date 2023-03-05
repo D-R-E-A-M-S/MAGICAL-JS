@@ -32,6 +32,6 @@ export const RegexStore: RegexSpecs = {
 
     Comment: /^\/\*[\s\S]*?\*\/|^\/\/.*/,
 
-    AssignmentOperator: /[+\-*\%]?=|<<=?|>>=?|>>>?=|&=?|\^=?|\|=?/,
+    AssignmentOperator: /[+\-*/%]?=/,
 
 };
