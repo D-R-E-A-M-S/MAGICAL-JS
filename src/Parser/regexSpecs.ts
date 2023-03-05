@@ -1,4 +1,4 @@
-import { RegexStore } from "@shared/RegexStore";
+import { RegexFactory } from "@shared/RegexFactory";
 import { TokenType } from "./types";
 
 type RegexSpecs = {
@@ -8,32 +8,38 @@ type RegexSpecs = {
 
 export const RegexSpec: RegexSpecs = {
 
-    String: RegexStore.String,
+    Comma: RegexFactory.Comma,
 
-    Number: RegexStore.Number,
+    String: RegexFactory.String,
 
-    Comment: RegexStore.Comment,
+    Number: RegexFactory.Number,
 
-    Semicolon: RegexStore.Semicolon,
+    Comment: RegexFactory.Comment,
 
-    EndOfFile: RegexStore.EndOfFile,
+    Semicolon: RegexFactory.Semicolon,
 
-    Identifier: RegexStore.Identifier,
+    VariableKeyword: RegexFactory.VariableKeyword,
 
-    Whitespace: RegexStore.Whitespace,
+    EmptyLine: RegexFactory.EmptyLine,
 
-    OpenCurlyBrace: RegexStore.OpenCurlyBrace,
+    EndOfFile: RegexFactory.EndOfFile,
 
-    CloseCurlyBrace: RegexStore.CloseCurlyBrace,
+    Identifier: RegexFactory.Identifier,
 
-    OpenParenthesis: RegexStore.OpenParenthesis,
+    Whitespace: RegexFactory.Whitespace,
 
-    CloseParenthesis: RegexStore.CloseParenthesis,
+    OpenCurlyBrace: RegexFactory.OpenCurlyBrace,
 
-    AssignmentOperator: RegexStore.AssignmentOperator,
+    CloseCurlyBrace: RegexFactory.CloseCurlyBrace,
 
-    AdditiveOperator: RegexStore.AdditiveOperator,
+    OpenParenthesis: RegexFactory.OpenParenthesis,
 
-    MultiplicativeOperator: RegexStore.MultiplicativeOperator,
+    CloseParenthesis: RegexFactory.CloseParenthesis,
+
+    AssignmentOperator: RegexFactory.AssignmentOperator,
+
+    AdditiveOperator: RegexFactory.AdditiveOperator,
+
+    MultiplicativeOperator: RegexFactory.MultiplicativeOperator,
 
 };

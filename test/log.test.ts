@@ -1,16 +1,10 @@
-import { Parser } from "MAGICAL-JS";
 import { describe, it } from "vitest";
+import { getAST } from "./Shared";
 
 describe( 'manual test', () => {
 
-    const AST = Parser.parse(
-        `
-        3 - 2 * 2;
-        m += 1;
-        `
-    );
-
-    console.log( JSON.stringify( AST, null, 2 ) );
+    console.log( JSON.stringify( getAST( `code` ), null, 2 ) );
     it( '' );
 
 } );
+

@@ -14,6 +14,20 @@
         "type": "git",
         "url": "git+https://github.com/D-R-E-A-M-S/MAGICAL-JS.git"
     },
+    "files": [
+        "MAGICAL-JS"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "exports": {
+        ".": {
+            "import": "./MAGICAL-JS/index.js",
+            "require": "./MAGICAL-JS/index.cjs",
+            "types": "./MAGICAL-JS/index.d.ts"
+        },
+        "./package.json": "./package.json"
+    },
     "keywords": [
         "react",
         "reactjs",

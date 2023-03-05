@@ -1,9 +1,11 @@
-import { Parser } from "MAGICAL-JS";
 import { describe, expect, it } from "vitest";
+import { getAST } from "./Shared";
 
 describe( 'binaryExpressions', () => {
 
-    const AST = Parser.parse( '16 + 1 -  48' );
+    const AST = getAST(
+        '16 + 1 -  48'
+    );
 
     it( 'should return a program tree with a binaryExpression', () => {
 

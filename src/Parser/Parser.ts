@@ -1,4 +1,4 @@
-import { AdditiveExpression, AssignmentExpression, BlockStatement, EmptyStatement, Expression, ExpressionStatement, Identifier, Literal, MultiplicativeExpression, NumberLiteral, ParenthesizedExpression, PrimaryExpression, Program, Statement, StatementList, StringLiteral, Token, TokenType } from "./types";
+import { AdditiveExpression, AssignmentExpression, BlockStatement, EmptyStatement, Expression, ExpressionStatement, Identifier, Literal, MultiplicativeExpression, NumberLiteral, ParenthesizedExpression, PrimaryExpression, Program, Statement, StatementList, StringLiteral, Token, TokenType, VariableDeclaration, VariableDeclarationList, VariableInitializer, VariableStatement } from "./types";
 import { Tokenizer } from "./Tokenizer";
 
 
@@ -86,6 +86,23 @@ export class Parser {
     }
 
     private static identifier (): Identifier {
+
+        const reservedKeywords = [
+            'if',
+            'else',
+            'function',
+            'var',
+            'const',
+            'let',
+            'for',
+            'while',
+            'do',
+            'break',
+            'continue',
+        ];
+
+        if ( reservedKeywords.includes( Parser.lookahead.value ) )
+            throw new SyntaxError( `Unexpected identifier: ${ Parser.lookahead.value }, is a reserved keyword` );
 
         const token = Parser.eat( 'Identifier' );
 
@@ -231,10 +248,79 @@ export class Parser {
 
         Parser.eat( 'CloseCurlyBrace' );
 
+        false && Parser.eat( 'Semicolon' ); //TODO: keep for compiler options
+
         return {
             type: 'BlockStatement',
             block: statement
         };
+    }
+
+    private static variableInitializer (): VariableInitializer {
+
+        if ( Parser.lookahead.type === 'AssignmentOperator' )
+            Parser.eat( 'AssignmentOperator' );
+
+        return Parser.assignmentExpression();
+
+    }
+
+    private static variableDeclaration (): VariableDeclaration {
+
+        const identifier = Parser.identifier();
+        let operator: Token = null as unknown as Token;
+        let initializer: VariableInitializer = null as unknown as VariableInitializer;
+
+        if ( Parser.lookahead.type === 'AssignmentOperator' ) {
+
+            operator = Parser.eat( 'AssignmentOperator' );
+            initializer = Parser.variableInitializer();
+
+        } else if ( Parser.lookahead.type !== 'Comma' && Parser.lookahead.type !== 'Semicolon' )
+            Parser.variableInitializer();
+
+
+        return {
+            type: 'VariableDeclarator',
+            identifier,
+            operator,
+            initializer,
+        };
+
+    }
+
+    private static variableDeclarationList (): VariableDeclarationList {
+
+        const declarationList = [ Parser.variableDeclaration() ];
+
+        while ( Parser.lookahead.type === 'Comma' ) {
+
+            Parser.eat( 'Comma' );
+            declarationList.push( Parser.variableDeclaration() );
+
+        }
+
+        return declarationList;
+
+    }
+
+    private static variableStatement (): VariableStatement {
+
+        if ( Parser.lookahead.value === 'var' )
+            throw new SyntaxError( `unsupported var keyword, use let instead` );
+
+        const kind = Parser.eat( 'VariableKeyword' );
+
+        const declarations = Parser.variableDeclarationList();
+
+        false && Parser.eat( 'Semicolon' ); //TODO: keep for compiler options
+
+        return {
+            type: 'VariableStatement',
+            kind: kind,
+            declarations,
+        };
+
     }
 
     private static statement (): Statement {
@@ -245,6 +331,8 @@ export class Parser {
                 return Parser.emptyStatement();
             case 'OpenCurlyBrace':
                 return Parser.blockStatement();
+            case 'VariableKeyword':
+                return Parser.variableStatement();
             default:
                 return Parser.expressionStatement();
 

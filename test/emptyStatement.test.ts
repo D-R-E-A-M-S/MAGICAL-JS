@@ -1,12 +1,13 @@
 import { Parser } from "MAGICAL-JS";
 import { describe, expect, it } from "vitest";
+import { getAST } from "./Shared";
 
 describe( "emptyStatement", () => {
 
 
     it( "should return a program tree with an emptyStatement", () => {
 
-        const AST = Parser.parse( ";" );
+        const AST = getAST( ';' );
 
         expect( AST ).toEqual( {
 

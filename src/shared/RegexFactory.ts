@@ -5,8 +5,9 @@ type RegexSpecs = {
     [ key in TokenType ]: RegExp;
 };
 
-export const RegexStore: RegexSpecs = {
+export const RegexFactory: RegexSpecs = {
 
+    Comma: /^,/,
 
     Number: /^\d+/,
 
@@ -30,10 +31,13 @@ export const RegexStore: RegexSpecs = {
 
     AssignmentOperator: /^[+\-*/%]?=/,
 
-    AdditiveOperator: /(?<!\+|\-)=|(?<!\+|\-)\+(?!\+)|(?<!\+|\-)\-(?!\-)/,
-
     MultiplicativeOperator: /[*\/%]/,
 
     Comment: /^\/\*[\s\S]*?\*\/|^\/\/.*/,
 
+    EmptyLine: /^\s*$/,
+
+    VariableKeyword: /^\b(let|const|var)\b/,
+
+    AdditiveOperator: /^[+\-]/,
 };
