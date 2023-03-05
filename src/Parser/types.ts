@@ -73,7 +73,7 @@ interface AdditiveExpressionLeft extends BinaryExpression {
 
 interface Identifier {
     readonly type: 'Identifier';
-    readonly name: string;
+    readonly name: string | undefined;
 }
 
 type AssignmentExpression = {

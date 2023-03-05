@@ -276,9 +276,7 @@ export class Parser {
             operator = Parser.eat( 'AssignmentOperator' );
             initializer = Parser.variableInitializer();
 
-        } else if ( Parser.lookahead.type !== 'Comma' && Parser.lookahead.type !== 'Semicolon' )
-            Parser.variableInitializer();
-
+        }
 
         return {
             type: 'VariableDeclarator',
