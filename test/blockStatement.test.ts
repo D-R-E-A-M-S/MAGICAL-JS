@@ -1,5 +1,5 @@
-import { Parser } from "MAGICAL-JS";
 import { describe, expect, it } from "vitest";
+import { getAST } from "./Shared";
 
 describe( "blockStatement", () => {
 
@@ -7,7 +7,7 @@ describe( "blockStatement", () => {
     it( "should return a BlockStatement", () => {
 
 
-        const AST = Parser.parse(
+        const AST = getAST(
             `
             {
                 {}
@@ -42,7 +42,7 @@ describe( "blockStatement", () => {
 
     it( "should return a BlockStatement with an emptyStatement", () => {
 
-        const AST = Parser.parse(
+        const AST = getAST(
             `
             {
                 
@@ -68,7 +68,7 @@ describe( "blockStatement", () => {
 
     it( "should return a BlockStatement with multiple expressionStatement", () => {
 
-        const AST = Parser.parse(
+        const AST = getAST(
             `
             {
                 "MAGICAL-JS";
@@ -132,8 +132,7 @@ describe( "blockStatement", () => {
 
     it( "should return a BlockStatement with multiple expressionStatement, an emptyStatement and nested blocks", () => {
 
-        const AST = Parser.parse(
-
+        const AST = getAST(
             `
             {
                 {
@@ -143,7 +142,6 @@ describe( "blockStatement", () => {
                 }
             }
             `
-
         );
 
         expect( AST ).toEqual(

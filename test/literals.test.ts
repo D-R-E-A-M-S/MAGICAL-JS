@@ -1,9 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { Parser } from 'MAGICAL-JS';
+import { getAST } from './Shared';
 
 describe( 'literal', () => {
 
-    const NumericAST = Parser.parse( `16` );
+    const NumericAST = getAST( `16` );
 
     it( 'should return a program tree for numericLiteral', () => {
 

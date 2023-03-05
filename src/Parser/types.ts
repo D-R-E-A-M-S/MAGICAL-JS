@@ -1,89 +1,160 @@
-export type TokenTypes =
+type TokenType =
+    | 'Comma'
     | 'String'
     | 'Number'
     | 'Comment'
     | 'Semicolon'
     | 'EndOfFile'
+    | 'EmptyLine'
     | 'Whitespace'
     | 'Identifier'
     | 'OpenCurlyBrace'
     | 'CloseCurlyBrace'
     | 'OpenParenthesis'
+    | 'VariableKeyword'
+    | 'AdditiveOperator'
     | 'CloseParenthesis'
     | 'AssignmentOperator'
-    | 'ArithmeticOperator';
+    | 'MultiplicativeOperator'
+    ;
 
-export interface Token {
-    type: TokenTypes;
+interface Token {
+    type: TokenType;
     value: string;
 }
 
-export interface StringLiteral {
+interface StringLiteral {
     readonly type: 'StringLiteral';
     readonly value: string;
 }
 
-export interface NumberLiteral {
+interface NumberLiteral {
     readonly type: 'NumberLiteral';
     readonly value: number;
 }
 
-export type Literal = StringLiteral | NumberLiteral;
+type Literal = StringLiteral | NumberLiteral;
 
-export interface ParenthesizedExpression {
+interface ParenthesizedExpression {
     readonly type: 'ParenthesizedExpression';
     readonly expression: Expression;
 }
 
-export type PrimaryExpression =
+type PrimaryExpression =
     | Literal
     | Identifier
     | ParenthesizedExpression
     ;
 
-export interface BinaryExpression {
+interface BinaryExpression {
     type: 'BinaryExpression';
-    left: PrimaryExpression;
+    left: PrimaryExpression | BinaryExpression;
     operator: Token;
-    right: ArithmeticExpression;
+    right: PrimaryExpression | BinaryExpression;
 }
 
-export type ArithmeticExpression = BinaryExpression | PrimaryExpression;
 
-export interface Identifier {
+
+type MultiplicativeExpression =
+    | PrimaryExpression
+    | MultiplicativeExpressionLeft;
+interface MultiplicativeExpressionLeft extends BinaryExpression {
+    left: PrimaryExpression | MultiplicativeExpressionLeft;
+    right: PrimaryExpression;
+}
+
+type AdditiveExpression =
+    | MultiplicativeExpression
+    | AdditiveExpressionLeft;
+interface AdditiveExpressionLeft extends BinaryExpression {
+    left: MultiplicativeExpression | AdditiveExpressionLeft;
+    right: MultiplicativeExpression;
+}
+
+interface Identifier {
     readonly type: 'Identifier';
     readonly name: string;
 }
 
-export type AssignmentExpression = {
+type AssignmentExpression = {
     readonly type: 'AssignmentExpression';
     readonly left: Identifier;
     readonly operator: Token;
     readonly right: Expression;
-} | ArithmeticExpression;
+} | AdditiveExpression;
 
-export type Expression = AssignmentExpression;
+type Expression = AssignmentExpression;
 
-export interface ExpressionStatement {
+interface ExpressionStatement {
     readonly type: 'ExpressionStatement';
     readonly expression: Expression;
 }
 
-export interface EmptyStatement {
+interface EmptyStatement {
     readonly type: 'EmptyStatement';
     readonly value: string;
 }
 
-export interface BlockStatement {
+interface BlockStatement {
     readonly type: 'BlockStatement';
     readonly block: StatementList;
 }
 
-export type Statement = EmptyStatement | BlockStatement | ExpressionStatement;
+type VariableInitializer = AssignmentExpression;
 
-export type StatementList = Statement[];
+interface VariableDeclaration {
+    readonly type: 'VariableDeclarator';
+    readonly identifier: Identifier;
+    readonly operator: Token;
+    readonly initializer: VariableInitializer;
+}
 
-export interface Program {
+type VariableDeclarationList = VariableDeclaration[];
+
+interface VariableStatement {
+    readonly type: 'VariableStatement';
+    readonly kind: Token;
+    readonly declarations: VariableDeclarationList;
+
+}
+
+type Statement =
+    | EmptyStatement
+    | BlockStatement
+    | VariableStatement
+    | ExpressionStatement;
+
+type StatementList = Statement[];
+
+interface Program {
     readonly type: 'Program';
     readonly body: StatementList;
 }
+
+export type {
+    TokenType,
+    Token,
+    StringLiteral,
+    NumberLiteral,
+    Literal,
+    ParenthesizedExpression,
+    PrimaryExpression,
+    BinaryExpression,
+    MultiplicativeExpression,
+    MultiplicativeExpressionLeft,
+    AdditiveExpression,
+    AdditiveExpressionLeft,
+    Identifier,
+    AssignmentExpression,
+    Expression,
+    ExpressionStatement,
+    EmptyStatement,
+    BlockStatement,
+    VariableInitializer,
+    VariableDeclaration,
+    VariableDeclarationList,
+    VariableStatement,
+    Statement,
+    StatementList,
+    Program
+};

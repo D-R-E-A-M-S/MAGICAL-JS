@@ -1,5 +1,5 @@
 import { RegexSpec } from "./regexSpecs";
-import { Token, TokenTypes } from "./types";
+import { Token, TokenType } from "./types";
 
 export class Tokenizer {
 
@@ -46,7 +46,8 @@ export class Tokenizer {
 
                 const ignoredToked = [
                     'Comment',
-                    'Whitespace'
+                    'EmptyLine',//TODO: Remove this
+                    'Whitespace',
                 ];
                 const value = this.validator( regex );
 
@@ -60,7 +61,7 @@ export class Tokenizer {
 
 
                     return {
-                        type: tokenType as TokenTypes,
+                        type: tokenType as TokenType,
                         value
                     };
 

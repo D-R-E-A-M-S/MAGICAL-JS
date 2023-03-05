@@ -1,5 +1,5 @@
-import { Parser } from "MAGICAL-JS";
 import { describe, expect, it } from "vitest";
+import { getAST } from "./Shared";
 
 describe( "AssignmentExpression", () => {
 
@@ -7,7 +7,9 @@ describe( "AssignmentExpression", () => {
 
     it( "should return an AST of an Assignment Expression", () => {
 
-        const AST = Parser.parse( `power = 'magic'` );
+        const AST = getAST(
+            `power = 'magic'`
+        );
 
         expect( AST ).toEqual(
 
@@ -42,15 +44,14 @@ describe( "AssignmentExpression", () => {
 
     it( "should return an AST of an Assignment Expression with parenthesized expression", () => {
 
-        const AST = Parser.parse(
-
+        const AST = getAST(
             `
              SpringForce  = (SpringForce + DampingForce) / mass
             `
-
         );
 
         expect( AST ).toEqual(
+
             {
                 type: 'Program',
                 body: [
@@ -77,7 +78,7 @@ describe( "AssignmentExpression", () => {
                                             name: 'SpringForce'
                                         },
                                         operator: {
-                                            type: 'ArithmeticOperator',
+                                            type: 'AdditiveOperator',
                                             value: '+'
                                         },
                                         right: {
@@ -87,7 +88,7 @@ describe( "AssignmentExpression", () => {
                                     }
                                 },
                                 operator: {
-                                    type: 'ArithmeticOperator',
+                                    type: 'MultiplicativeOperator',
                                     value: '/'
                                 },
                                 right: {
