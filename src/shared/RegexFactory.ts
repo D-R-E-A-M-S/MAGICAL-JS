@@ -17,6 +17,8 @@ export const RegexFactory: RegexSpecs = {
 
     Whitespace: /^\s+/,
 
+    IfKeyword: /^\bif\b/,
+
     OpenCurlyBrace: /^\{/,
 
     CloseCurlyBrace: /^\}/,
@@ -24,6 +26,10 @@ export const RegexFactory: RegexSpecs = {
     OpenParenthesis: /^\(/,
 
     CloseParenthesis: /^\)/,
+
+    ElseKeyword: /^\belse\b/,
+
+    AdditiveOperator: /^[+\-]/,
 
     Identifier: /^[$a-zA-Z_]\w*/,
 
@@ -35,9 +41,6 @@ export const RegexFactory: RegexSpecs = {
 
     Comment: /^\/\*[\s\S]*?\*\/|^\/\/.*/,
 
-    EmptyLine: /^\s*$/,
-
     VariableKeyword: /^\b(let|const|var)\b/,
 
-    AdditiveOperator: /^[+\-]/,
 };

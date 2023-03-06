@@ -5,9 +5,10 @@ type TokenType =
     | 'Comment'
     | 'Semicolon'
     | 'EndOfFile'
-    | 'EmptyLine'
-    | 'Whitespace'
+    | 'IfKeyword'
     | 'Identifier'
+    | 'Whitespace'
+    | 'ElseKeyword'
     | 'OpenCurlyBrace'
     | 'CloseCurlyBrace'
     | 'OpenParenthesis'
@@ -95,6 +96,10 @@ interface EmptyStatement {
     readonly value: string;
 }
 
+interface EmptyLine {
+    readonly type: 'EmptyLine';
+}
+
 interface BlockStatement {
     readonly type: 'BlockStatement';
     readonly block: StatementList;
@@ -118,7 +123,16 @@ interface VariableStatement {
 
 }
 
+interface IfStatement {
+    readonly type: 'IfStatement';
+    readonly condition: ParenthesizedExpression;
+    readonly thenStatement: Statement;
+    readonly elseKeyword: Statement;
+}
+
 type Statement =
+    | EmptyLine
+    | IfStatement
     | EmptyStatement
     | BlockStatement
     | VariableStatement
@@ -132,8 +146,10 @@ interface Program {
 }
 
 export type {
+    EmptyLine,
     TokenType,
     Token,
+    IfStatement,
     StringLiteral,
     NumberLiteral,
     Literal,

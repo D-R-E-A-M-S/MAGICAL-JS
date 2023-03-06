@@ -46,7 +46,6 @@ export class Tokenizer {
 
                 const ignoredToked = [
                     'Comment',
-                    'EmptyLine',//TODO: Remove this
                     'Whitespace',
                 ];
                 const value = this.validator( regex );
