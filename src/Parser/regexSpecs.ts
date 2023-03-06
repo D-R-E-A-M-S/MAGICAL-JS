@@ -20,9 +20,11 @@ export const RegexSpec: RegexSpecs = {
 
     VariableKeyword: RegexFactory.VariableKeyword,
 
-    EmptyLine: RegexFactory.EmptyLine,
-
     EndOfFile: RegexFactory.EndOfFile,
+
+    IfKeyword: RegexFactory.IfKeyword,
+
+    ElseKeyword: RegexFactory.ElseKeyword,
 
     Identifier: RegexFactory.Identifier,
 

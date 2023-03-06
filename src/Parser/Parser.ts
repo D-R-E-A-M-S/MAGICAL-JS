@@ -1,4 +1,8 @@
-import { AdditiveExpression, AssignmentExpression, BlockStatement, EmptyStatement, Expression, ExpressionStatement, Identifier, Literal, MultiplicativeExpression, NumberLiteral, ParenthesizedExpression, PrimaryExpression, Program, Statement, StatementList, StringLiteral, Token, TokenType, VariableDeclaration, VariableDeclarationList, VariableInitializer, VariableStatement } from "./types";
+import {
+    AdditiveExpression, AssignmentExpression, BlockStatement, EmptyStatement, Expression, ExpressionStatement, Identifier,
+    IfStatement, Literal, MultiplicativeExpression, NumberLiteral, ParenthesizedExpression, PrimaryExpression, Program,
+    Statement, StatementList, StringLiteral, Token, TokenType, VariableDeclaration, VariableDeclarationList, VariableInitializer, VariableStatement
+} from "./types";
 import { Tokenizer } from "./Tokenizer";
 
 
@@ -20,7 +24,7 @@ export class Parser {
 
     private static eat ( tokenType: TokenType ): Token {
 
-        const token = Parser.lookahead;
+        const token: Token = Parser.lookahead;
 
         if ( token.type === 'EndOfFile' )
             throw new SyntaxError( `Unexpected end of file, expected: ${ tokenType }` );
@@ -30,13 +34,13 @@ export class Parser {
 
         Parser.lookahead = Parser.tokenizer.analyze();
 
-        return token as Token;
+        return token;
 
     }
 
     private static numberLiteral (): NumberLiteral {
 
-        const token = Parser.eat( 'Number' );
+        const token: Token = Parser.eat( 'Number' );
 
         return {
             type: 'NumberLiteral',
@@ -47,7 +51,7 @@ export class Parser {
 
     private static stringLiteral (): StringLiteral {
 
-        const token = Parser.eat( 'String' );
+        const token: Token = Parser.eat( 'String' );
 
         return {
             type: 'StringLiteral',
@@ -73,7 +77,7 @@ export class Parser {
 
         Parser.eat( 'OpenParenthesis' );
 
-        const expression = Parser.expression();
+        const expression: Expression = Parser.expression();
 
         Parser.eat( 'CloseParenthesis' );
 
@@ -104,7 +108,7 @@ export class Parser {
         if ( reservedKeywords.includes( Parser.lookahead.value ) )
             throw new SyntaxError( `Unexpected identifier: ${ Parser.lookahead.value }, is a reserved keyword` );
 
-        const token = Parser.eat( 'Identifier' );
+        const token: Token = Parser.eat( 'Identifier' );
 
         return {
             type: 'Identifier',
@@ -137,9 +141,9 @@ export class Parser {
 
         while ( Parser.lookahead.type === 'MultiplicativeOperator' ) {
 
-            const operator = Parser.eat( 'MultiplicativeOperator' );
+            const operator: Token = Parser.eat( 'MultiplicativeOperator' );
 
-            const right = Parser.primaryExpression();
+            const right: PrimaryExpression = Parser.primaryExpression();
 
             left = {
                 type: 'BinaryExpression',
@@ -177,7 +181,7 @@ export class Parser {
 
     }
 
-    private static checkIdentifier ( node: any ): Identifier {
+    private static checkIdentifier ( node: Expression ): Identifier {
 
         if ( node.type === 'Identifier' ) return node;
 
@@ -187,13 +191,13 @@ export class Parser {
 
     private static assignmentExpression (): AssignmentExpression {
 
-        const left = Parser.additiveExpression();
+        const left: AdditiveExpression = Parser.additiveExpression();
 
         if ( Parser.lookahead.type === 'AssignmentOperator' ) {
 
-            const operator = Parser.eat( 'AssignmentOperator' );
+            const operator: Token = Parser.eat( 'AssignmentOperator' );
 
-            const right = Parser.assignmentExpression();
+            const right: AssignmentExpression = Parser.assignmentExpression();
 
             return {
                 type: 'AssignmentExpression',
@@ -216,7 +220,7 @@ export class Parser {
 
     private static expressionStatement (): ExpressionStatement {
 
-        const expression = Parser.expression();
+        const expression: Expression = Parser.expression();
         false && Parser.eat( 'Semicolon' ); //TODO: keep for compiler options 
         return {
             type: 'ExpressionStatement',
@@ -227,7 +231,7 @@ export class Parser {
 
     private static emptyStatement (): EmptyStatement {
 
-        const value = Parser.eat( 'Semicolon' );
+        const value: Token = Parser.eat( 'Semicolon' );
         return {
             type: 'EmptyStatement',
             value: value.value
@@ -238,7 +242,7 @@ export class Parser {
 
         Parser.eat( 'OpenCurlyBrace' );
 
-        const statement = [];
+        const statement: Statement[] = [];
 
         while ( Parser.lookahead.type !== 'CloseCurlyBrace' ) {
 
@@ -267,7 +271,7 @@ export class Parser {
 
     private static variableDeclaration (): VariableDeclaration {
 
-        const identifier = Parser.identifier();
+        const identifier: Identifier = Parser.identifier();
         let operator: Token = null as unknown as Token;
         let initializer: VariableInitializer = null as unknown as VariableInitializer;
 
@@ -289,7 +293,7 @@ export class Parser {
 
     private static variableDeclarationList (): VariableDeclarationList {
 
-        const declarationList = [ Parser.variableDeclaration() ];
+        const declarationList: VariableDeclarationList = [ Parser.variableDeclaration() ];
 
         while ( Parser.lookahead.type === 'Comma' ) {
 
@@ -307,9 +311,9 @@ export class Parser {
         if ( Parser.lookahead.value === 'var' )
             throw new SyntaxError( `unsupported var keyword, use let instead` );
 
-        const kind = Parser.eat( 'VariableKeyword' );
+        const kind: Token = Parser.eat( 'VariableKeyword' );
 
-        const declarations = Parser.variableDeclarationList();
+        const declarations: VariableDeclarationList = Parser.variableDeclarationList();
 
         false && Parser.eat( 'Semicolon' ); //TODO: keep for compiler options
 
@@ -321,12 +325,39 @@ export class Parser {
 
     }
 
+    private static ifStatement (): IfStatement {
+
+        Parser.eat( 'IfKeyword' );
+
+        const condition: ParenthesizedExpression = Parser.parenthesizedExpression();
+
+        let thenStatement: Statement = Parser.lookahead.type === 'OpenCurlyBrace' ?
+            Parser.blockStatement() :
+            Parser.statement();
+
+
+        let elseKeyword: Statement = Parser.lookahead.type === 'ElseKeyword' ?
+            Parser.eat( 'ElseKeyword' ) &&
+            Parser.statement() :
+            undefined as unknown as Statement;
+
+        return {
+            type: 'IfStatement',
+            condition,
+            thenStatement,
+            elseKeyword
+        };
+
+    }
+
     private static statement (): Statement {
 
         switch ( Parser.lookahead.type ) {
 
             case 'Semicolon':
                 return Parser.emptyStatement();
+            case 'IfKeyword':
+                return Parser.ifStatement();
             case 'OpenCurlyBrace':
                 return Parser.blockStatement();
             case 'VariableKeyword':
@@ -339,7 +370,7 @@ export class Parser {
 
     private static statementList ( stopLookAhead?: TokenType ): StatementList {
 
-        const statementList = [ Parser.statement() ];
+        const statementList: StatementList = [ Parser.statement() ];
 
         while ( Parser.lookahead.type !== 'EndOfFile' && Parser.lookahead.type !== stopLookAhead )
             statementList.push( Parser.statement() );
